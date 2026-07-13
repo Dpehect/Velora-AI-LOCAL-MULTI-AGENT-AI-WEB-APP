@@ -22,8 +22,9 @@ class Settings(BaseSettings):
     ollama_base_url: str = "http://localhost:11434"
     temperature: float = 0.2
     researcher_max_iters: int = 4
+    # Use * for local API called from Vercel + localhost (see main.py credentials=False)
     cors_origins_raw: str = Field(
-        default="http://localhost:3000,http://127.0.0.1:3000",
+        default="*",
         validation_alias="CORS_ORIGINS",
     )
 

@@ -27,13 +27,13 @@ app = FastAPI(
     description="Local multi-agent research (Supervisor + Researcher). Ollama required.",
 )
 
-# CORS open for local Next.js (and optional Vercel UI → local API via tunnel)
-_origins = settings.cors_origins
+# CORS: open for local UI + Vercel. credentials=False so allow_origins=["*"] works in browsers.
+_origins = settings.cors_origins or ["*"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_origins if _origins else ["*"],
-    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
-    allow_credentials=True,
+    allow_origins=_origins,
+    allow_origin_regex=r"https://.*\.vercel\.app|https?://(localhost|127\.0\.0\.1)(:\d+)?",
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )

@@ -112,12 +112,22 @@ export function LabApp() {
               {loading ? "Running agents…" : "POST /run"}
             </button>
             {backendOk === false ? (
-              <p className="mt-3 text-xs text-[#6E6E73]">
-                Start backend:{" "}
-                <code className="rounded bg-[#F5F5F7] px-1">
-                  cd backend && uvicorn app.main:app --reload
-                </code>
-              </p>
+              <div className="mt-3 space-y-2 text-xs text-[#6E6E73]">
+                <p>
+                  Backend offline. PC&apos;de API çalışıyor mu?{" "}
+                  <code className="rounded bg-[#F5F5F7] px-1">
+                    cd backend && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+                  </code>
+                </p>
+                <p>
+                  <strong>Vercel (HTTPS)</strong> doğrudan{" "}
+                  <code className="rounded bg-[#F5F5F7] px-1">http://127.0.0.1:8000</code>{" "}
+                  çağıramaz (mixed content). Local API için{" "}
+                  <strong>ngrok / Cloudflare Tunnel</strong> ile HTTPS URL alıp Vercel env{" "}
+                  <code className="rounded bg-[#F5F5F7] px-1">NEXT_PUBLIC_API_URL</code>{" "}
+                  olarak ver.
+                </p>
+              </div>
             ) : null}
           </section>
 
