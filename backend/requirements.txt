@@ -1,6 +1,4 @@
-# Velora Backend — install only inside backend/.venv
-# pip install -r requirements.txt
-
+# Velora backend — FastAPI + LangGraph + Ollama (scaffold)
 fastapi>=0.115.0
 uvicorn[standard]>=0.32.0
 pydantic>=2.0.0

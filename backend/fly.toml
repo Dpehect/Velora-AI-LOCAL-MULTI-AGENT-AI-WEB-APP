@@ -1,6 +1,5 @@
-# Velora Backend only — deploy from backend/ directory
-#   cd backend && fly deploy
-# Frontend is a separate Vercel project (see frontend/vercel.json)
+# Velora backend — Fly.io
+# cd backend && fly deploy
 
 app = "velora-ai-lab-api"
 primary_region = "iad"
@@ -9,11 +8,8 @@ primary_region = "iad"
   dockerfile = "Dockerfile"
 
 [env]
-  # Override at runtime: fly secrets set OLLAMA_BASE_URL=...
   OLLAMA_BASE_URL = "http://localhost:11434"
   OLLAMA_MODEL = "qwen2.5:7b"
-  API_TITLE = "Velora AI Lab"
-  API_VERSION = "0.3.0"
 
 [http_service]
   internal_port = 8000

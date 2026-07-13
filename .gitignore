@@ -1,19 +1,14 @@
-# ===== Monorepo root =====
-# Package-specific ignores also live in backend/.gitignore and frontend/.gitignore
-
-# OS / IDE
+# Root
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
 *.log
-
-# Accidental root envs / venvs (each package has its own)
 .env
 .env.*
 !.env.example
+
+# Accidental root envs
 .venv/
 venv/
-
-# Never commit secrets or local tooling at root
-*.pem
+node_modules/

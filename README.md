@@ -1,67 +1,53 @@
-# Velora AI Lab
+# Velora
 
-Two **independent** packages in one repo. They only talk over **HTTP**.
+Monorepo scaffold: **frontend** (Vercel) + **backend** (Fly.io).
 
 ```
 velora/
-├── frontend/     # Next.js 15 → Vercel
-├── backend/      # FastAPI + LangGraph → Fly.io
-├── README.md     # this file (hub only)
+├── frontend/          # Next.js 15 + Tailwind + TypeScript → Vercel
+├── backend/           # FastAPI + LangGraph + Ollama → Fly.io
+├── README.md
 └── .gitignore
 ```
 
-| Package | Stack | Deploy | Docs |
-|---------|--------|--------|------|
-| [`frontend/`](./frontend) | Next.js 15, Tailwind, TypeScript | Vercel | [frontend/README.md](./frontend/README.md) |
-| [`backend/`](./backend) | FastAPI, LangGraph, Ollama | Fly.io | [backend/README.md](./backend/README.md) |
+## Packages
 
-## Separation rules
+| Folder | Stack | Deploy |
+|--------|--------|--------|
+| [`frontend/`](./frontend) | Next.js 15, Tailwind, TypeScript | Vercel |
+| [`backend/`](./backend) | FastAPI, LangGraph, Ollama | Fly.io |
 
-1. **No shared runtime** — frontend never imports Python; backend never imports Next/React.
-2. **No shared `node_modules` / venv** — each package installs its own deps.
-3. **Single coupling point** — `NEXT_PUBLIC_API_URL` (frontend) → FastAPI base URL (backend).
-4. **Own env files** — `frontend/.env.local`, `backend/.env`.
-5. **Own deploy configs** — `frontend/vercel.json`, `backend/Dockerfile` + `fly.toml`.
+> **Status:** Folder structure + base configs only. Application logic is not implemented yet.
+
+## Layout
 
 ```
-┌─────────────┐   HTTP    ┌─────────────┐   HTTP    ┌────────┐
-│  Frontend   │ ────────► │   Backend   │ ────────► │ Ollama │
-│  (Vercel)   │  JSON API │   (Fly.io)  │           │        │
-└─────────────┘           └─────────────┘           └────────┘
+frontend/
+├── app/
+├── components/
+├── lib/
+├── public/
+├── package.json
+├── tsconfig.json
+└── vercel.json
+
+backend/
+├── app/
+│   ├── graph/          # LangGraph placeholders
+│   ├── routers/
+│   └── main.py
+├── Dockerfile
+├── fly.toml
+├── requirements.txt
+└── .env.example
 ```
 
-## Quick start (two terminals)
-
-### Terminal A — Backend
+## Local (later)
 
 ```bash
-cd backend
-python -m venv .venv
-.venv\Scripts\activate          # Windows
-# source .venv/bin/activate     # macOS/Linux
-pip install -r requirements.txt
-cp .env.example .env
-uvicorn app.main:app --reload --port 8000
+# Backend
+cd backend && uvicorn app.main:app --reload --port 8000
+
+# Frontend
+cd frontend && npm run dev
 ```
-
-### Terminal B — Frontend
-
-```bash
-cd frontend
-npm install
-cp .env.example .env.local      # NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
-npm run dev
-```
-
-- UI: http://127.0.0.1:3000  
-- API: http://127.0.0.1:8000/docs  
-
-## Deploy overview
-
-| Step | Where | Action |
-|------|--------|--------|
-| 1 | Fly.io | `cd backend && fly deploy` (+ Ollama secrets) |
-| 2 | Vercel | Root Directory = `frontend`, set `NEXT_PUBLIC_API_URL` |
-| 3 | Backend | `CORS_ORIGINS=https://your-app.vercel.app` |
-
-Details: [backend/README.md](./backend/README.md) · [frontend/README.md](./frontend/README.md)
