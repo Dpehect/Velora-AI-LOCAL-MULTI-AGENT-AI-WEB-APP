@@ -1,46 +1,36 @@
 /**
- * Velora backend API client.
- * Set NEXT_PUBLIC_API_URL to the Fly.io (or local) FastAPI base URL.
+ * HTTP client for the Velora backend.
+ * No Python imports — network only.
  */
 
-export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "http://127.0.0.1:8000";
+import { config } from "@/lib/config";
+import type {
+  AgentRunRequest,
+  AgentRunResponse,
+  HealthResponse,
+} from "@/types/agent";
 
-export type MessageOut = {
-  role: string;
-  name?: string | null;
-  content: string;
-};
+export type {
+  AgentRunRequest,
+  AgentRunResponse,
+  HealthResponse,
+  MessageOut,
+} from "@/types/agent";
 
-export type AgentRunRequest = {
-  task: string;
-  thread_id?: string | null;
-};
+export const API_URL = config.apiUrl;
 
-export type AgentRunResponse = {
-  thread_id: string;
-  task: string;
-  status: string;
-  next_agent: string;
-  supervisor_reasoning: string;
-  research_findings: string;
-  draft_report: string;
-  critic_feedback: string;
-  final_report: string;
-  revision_count: number;
-  messages: MessageOut[];
-  message_count: number;
-  ok: boolean;
-  error?: string | null;
-};
-
-export type HealthResponse = {
-  status: string;
-  model: string;
-  ollama_base_url: string;
-  phase: string;
-  graph_nodes: string[];
-};
+async function parseError(res: Response): Promise<string> {
+  let detail = `Request failed (${res.status})`;
+  try {
+    const data = await res.json();
+    if (typeof data.detail === "string") detail = data.detail;
+    else if (data.detail) detail = JSON.stringify(data.detail);
+    else if (data.error) detail = String(data.error);
+  } catch {
+    /* ignore */
+  }
+  return detail;
+}
 
 export async function checkHealth(signal?: AbortSignal): Promise<HealthResponse> {
   const res = await fetch(`${API_URL}/health`, {
@@ -49,7 +39,7 @@ export async function checkHealth(signal?: AbortSignal): Promise<HealthResponse>
     cache: "no-store",
   });
   if (!res.ok) {
-    throw new Error(`Health check failed (${res.status})`);
+    throw new Error(await parseError(res));
   }
   return res.json();
 }
@@ -60,20 +50,13 @@ export async function runAgent(
 ): Promise<AgentRunResponse> {
   const res = await fetch(`${API_URL}/api/agent/run`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
     body: JSON.stringify(body),
     signal,
   });
 
   if (!res.ok) {
-    let detail = `Request failed (${res.status})`;
-    try {
-      const data = await res.json();
-      detail = typeof data.detail === "string" ? data.detail : JSON.stringify(data.detail ?? data);
-    } catch {
-      /* ignore */
-    }
-    throw new Error(detail);
+    throw new Error(await parseError(res));
   }
 
   return res.json();

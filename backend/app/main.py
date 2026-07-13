@@ -1,8 +1,10 @@
 """
-Velora AI Lab — FastAPI entrypoint (Phase-3).
+Velora AI Lab — Backend API entrypoint.
 
-Run:
-    uvicorn app.main:app --reload
+This package is self-contained under backend/.
+Run only from the backend directory (or with backend on PYTHONPATH).
+
+    cd backend
     uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 """
 
@@ -21,12 +23,11 @@ app = FastAPI(
     title=settings.api_title,
     version=settings.api_version,
     description=(
-        "Phase-3 multi-agent research API: Supervisor + Researcher + Writer + Critic "
-        "via LangGraph + Ollama. Trigger the pipeline with POST /api/agent/run."
+        "Velora multi-agent research API (FastAPI + LangGraph + Ollama). "
+        "Frontend is a separate package; communication is HTTP-only."
     ),
 )
 
-# CORS — open for local frontend development (tighten in production)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
@@ -35,13 +36,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Agent routes: /api/agent/run, /api/agent/graph
 app.include_router(agent_router)
 
 
 @app.get("/", tags=["meta"])
 def root() -> dict[str, Any]:
     return {
+        "service": "velora-backend",
         "name": settings.api_title,
         "version": settings.api_version,
         "phase": 3,
@@ -59,7 +60,6 @@ def root() -> dict[str, Any]:
     summary="Liveness / config probe",
 )
 def health() -> HealthResponse:
-    """Simple health check for load balancers and frontend boot probes."""
     return HealthResponse(
         status="ok",
         model=settings.ollama_model,

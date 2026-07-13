@@ -1,10 +1,6 @@
-# Velora AI Lab — Fly.io app config
-# Docs: https://fly.io/docs/reference/configuration/
-#
-# Deploy from this directory:
-#   cd backend
-#   fly launch   # first time (or fly apps create)
-#   fly deploy
+# Velora Backend only — deploy from backend/ directory
+#   cd backend && fly deploy
+# Frontend is a separate Vercel project (see frontend/vercel.json)
 
 app = "velora-ai-lab-api"
 primary_region = "iad"

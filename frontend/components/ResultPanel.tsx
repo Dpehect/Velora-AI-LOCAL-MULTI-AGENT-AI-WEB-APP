@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { AgentRunResponse } from "@/lib/api";
+import type { AgentRunResponse } from "@/types/agent";
 import { shortId } from "@/lib/utils";
 
 type Tab = "final" | "findings" | "draft" | "critic" | "messages";

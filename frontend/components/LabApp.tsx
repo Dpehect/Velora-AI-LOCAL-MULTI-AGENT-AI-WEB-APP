@@ -1,11 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  AgentRunResponse,
-  checkHealth,
-  runAgent,
-} from "@/lib/api";
+import { checkHealth, runAgent } from "@/lib/api";
+import type { AgentRunResponse } from "@/types/agent";
 import { Navbar } from "@/components/Navbar";
 import { ResearchForm } from "@/components/ResearchForm";
 import { ResultPanel } from "@/components/ResultPanel";

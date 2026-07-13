@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Velora AI Lab — Frontend
 
-## Getting Started
+**Standalone** Next.js 15 + Tailwind + TypeScript UI.  
+Deploy target: **Vercel**. Does not embed or import backend Python code.
 
-First, run the development server:
+```
+frontend/
+├── app/                 # Next.js App Router
+├── components/          # UI components
+├── lib/                 # API client + utils
+├── types/               # Shared TS types (API contract)
+├── public/
+├── package.json
+├── vercel.json
+├── .env.example
+└── README.md
+```
+
+## Prerequisites
+
+- Node.js 18+
+- Backend API running (see `../backend/README.md`) **or** a deployed Fly.io URL
+
+## Setup
+
+```bash
+cd frontend
+npm install
+cp .env.example .env.local
+```
+
+Edit `.env.local`:
+
+```env
+# Local backend
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+
+# Production (Fly.io example)
+# NEXT_PUBLIC_API_URL=https://velora-ai-lab-api.fly.dev
+```
+
+## Run
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://127.0.0.1:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Script | Command |
+|--------|---------|
+| Dev | `npm run dev` |
+| Build | `npm run build` |
+| Start | `npm start` |
+| Lint | `npm run lint` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How it talks to the backend
 
-## Learn More
+Only over HTTP — no shared runtime with Python:
 
-To learn more about Next.js, take a look at the following resources:
+| Frontend | Backend |
+|----------|---------|
+| `lib/api.ts` | `POST /api/agent/run` |
+| `checkHealth()` | `GET /health` |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Types live in `types/agent.ts` and mirror the backend response schema  
+documented in `backend/README.md`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Environment
 
-## Deploy on Vercel
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `NEXT_PUBLIC_API_URL` | Yes (prod) | Backend base URL, no trailing slash |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy (Vercel)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Import this monorepo on Vercel  
+2. **Root Directory:** `frontend`  
+3. Framework: Next.js  
+4. Env: `NEXT_PUBLIC_API_URL=https://<your-fly-app>.fly.dev`  
+5. Deploy  
+
+`vercel.json` is already in this folder.
+
+## Independence rules
+
+- No imports from `../backend`
+- Own `node_modules`, own scripts
+- Own env (`.env.local`)
+- Backend URL is configuration only (`NEXT_PUBLIC_API_URL`)
