@@ -1,0 +1,19 @@
+# Local Python env & caches — not needed for static Vercel deploy
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+checkpoints/
+*.db
+
+# Git / IDE
+.git/
+.idea/
+.vscode/
+*.log
+
+# Build output is generated on Vercel
+public/

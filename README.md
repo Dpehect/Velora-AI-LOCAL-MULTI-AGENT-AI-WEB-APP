@@ -2,7 +2,27 @@
 
 Hierarchical multi-agent research pipeline powered by **LangGraph 1.x** and **Ollama** — fully local, no paid APIs / web search.
 
-Includes an Apple-style **AI Lab** landing page under `ai-lab-landing/`.
+Includes an Apple-style **AI Lab** landing page under `ai-lab-landing/` (deployed on **Vercel** as a static site).
+
+## Deploy (Vercel)
+
+The repo is configured for **static** hosting of the landing page (not the Python multi-agent runtime).
+
+| File | Role |
+|------|------|
+| `package.json` | Forces Node/static build (avoids Python entrypoint error) |
+| `vercel.json` | `buildCommand` + `outputDirectory: public` |
+| `scripts/vercel-build.js` | Copies `ai-lab-landing/` → `public/` |
+
+In the Vercel project settings leave **Framework Preset** as *Other* (or auto). Do **not** set Root Directory to a Python path.
+
+```bash
+# Optional local check
+npm run build
+npx --yes serve public -l 5173
+```
+
+Local multi-agent (Ollama + LangGraph) still runs only on your machine — Vercel serves the marketing UI.
 
 ## Architecture (Phase-1)
 
