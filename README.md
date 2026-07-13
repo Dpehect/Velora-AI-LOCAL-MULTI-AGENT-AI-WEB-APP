@@ -1,100 +1,80 @@
 # Velora AI Lab
 
-Local multi-agent research system — **Next.js** frontend (Vercel) + **FastAPI / LangGraph** backend (Fly.io) + **Ollama**.
+Local multi-agent research system:
+
+| Layer | Tech | Deploy |
+|-------|------|--------|
+| **Frontend** | Next.js 15 + Tailwind + TypeScript | Vercel |
+| **Backend** | FastAPI + LangGraph + Ollama | Fly.io |
 
 ```
-velora/   (this repo)
-├── frontend/          # Vercel — Next.js 15 + Tailwind + TypeScript
-├── backend/           # Fly.io  — FastAPI + LangGraph + Ollama client
+├── frontend/     # Vercel
+├── backend/      # Fly.io
 ├── README.md
 └── .gitignore
 ```
 
-## Stack
-
-| Layer    | Tech                         | Deploy  |
-|----------|------------------------------|---------|
-| Frontend | Next.js 15, Tailwind, TS     | Vercel  |
-| Backend  | FastAPI, LangGraph, Ollama   | Fly.io  |
-| LLM      | Ollama (`qwen2.5:7b`)        | Local / private host |
-
-> **Scaffold status:** Folder structure and base configs are in place. Agent logic and UI will be filled in subsequent steps.
-
-## Structure
+## Architecture
 
 ```
-frontend/
-├── app/                 # App Router
-├── components/          # UI components
-├── lib/                 # utilities / API client
-├── public/
-├── package.json
-├── tailwind.config.ts
-├── tsconfig.json
-├── next.config.ts
-└── vercel.json
-
-backend/
-├── app/
-│   ├── graph/           # LangGraph (state, supervisor, researcher, …)
-│   ├── routers/
-│   ├── schemas/
-│   ├── services/
-│   └── main.py
-├── Dockerfile
-├── fly.toml
-├── requirements.txt
-└── .env.example
+Supervisor ⇄ Researcher | Writer | Critic → final_report
 ```
 
 ## Local development
 
-### Backend
+### 1. Backend
 
 ```bash
 cd backend
 python -m venv .venv
 # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+
+# Ollama must be running with the model:
+#   ollama pull qwen2.5:7b
+
 uvicorn app.main:app --reload --port 8000
 ```
 
-Health: http://127.0.0.1:8000/health
+- Health: http://127.0.0.1:8000/health  
+- Docs: http://127.0.0.1:8000/docs  
+- Run: `POST /api/agent/run` `{ "task": "..." }`
 
-### Frontend
+### 2. Frontend
 
 ```bash
 cd frontend
+cp .env.example .env.local   # NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
 npm install
 npm run dev
 ```
 
-App: http://127.0.0.1:3000
+Open http://127.0.0.1:3000
 
-Copy `frontend/.env.example` → `frontend/.env.local` and set:
-
-```env
-NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
-```
-
-## Deploy (later)
+## Deploy
 
 ### Vercel (frontend)
 
 - Root Directory: `frontend`
-- Framework: Next.js
-- Env: `NEXT_PUBLIC_API_URL=<fly-backend-url>`
+- Env: `NEXT_PUBLIC_API_URL=https://<your-fly-app>.fly.dev`
 
 ### Fly.io (backend)
 
 ```bash
 cd backend
-fly launch   # or: fly apps create velora-ai-lab-api
 fly deploy
+fly secrets set OLLAMA_BASE_URL=... OLLAMA_MODEL=qwen2.5:7b
 ```
 
-Configure Ollama URL via secrets:
+## Backend layout
 
-```bash
-fly secrets set OLLAMA_BASE_URL=https://your-ollama-host OLLAMA_MODEL=qwen2.5:7b
+```
+backend/app/
+  main.py
+  config.py
+  llm.py
+  graph/          # state, supervisor, researcher, writer, critic, tools
+  routers/agent.py
+  services/runner.py
+  schemas/agent.py
 ```

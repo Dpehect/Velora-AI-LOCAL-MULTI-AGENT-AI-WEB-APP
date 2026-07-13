@@ -1,3 +1,3 @@
-"""Velora AI Lab — Backend application package."""
+"""Velora AI — local multi-agent research system (Phase 1)."""
 
-__version__ = "0.3.0"
+__version__ = "0.1.0"
