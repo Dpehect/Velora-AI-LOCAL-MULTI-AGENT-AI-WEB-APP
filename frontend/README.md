@@ -1,10 +1,8 @@
 # Velora Frontend
 
-Next.js 15 + Tailwind + TypeScript lab UI (Vercel).
+Next.js 15 + Tailwind + TypeScript → **Vercel**.
 
-Does **not** use the old `ai-lab-landing/` static site.
-
-## Run
+Backend is **local only** — set the API URL to your machine (or a tunnel).
 
 ```bash
 cd frontend
@@ -13,9 +11,9 @@ cp .env.example .env.local
 npm run dev
 ```
 
-`NEXT_PUBLIC_API_URL` → backend base URL (default `http://127.0.0.1:8000`).
+`NEXT_PUBLIC_API_URL=http://127.0.0.1:8000`
 
-## Deploy (Vercel)
+## Vercel
 
 Root Directory: `frontend`  
-Env: `NEXT_PUBLIC_API_URL=https://your-api.fly.dev`
+Env: `NEXT_PUBLIC_API_URL` → local tunnel URL if you expose the PC API.

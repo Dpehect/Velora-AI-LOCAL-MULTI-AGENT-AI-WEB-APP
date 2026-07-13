@@ -6,7 +6,5 @@ __pycache__/
 .env.local
 .pytest_cache/
 .mypy_cache/
-.ruff_cache/
-.fly/
 *.log
 .DS_Store

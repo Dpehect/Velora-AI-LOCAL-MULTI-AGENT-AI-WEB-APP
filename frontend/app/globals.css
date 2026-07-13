@@ -2,19 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #fafafa;
-  --foreground: #1d1d1f;
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-::selection {
-  background: rgba(99, 102, 241, 0.16);
+  background: #fafafa;
   color: #1d1d1f;
+  -webkit-font-smoothing: antialiased;
 }

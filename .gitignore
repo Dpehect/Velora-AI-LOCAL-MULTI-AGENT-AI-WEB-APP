@@ -1,4 +1,3 @@
-# Root
 .DS_Store
 Thumbs.db
 .idea/
@@ -9,3 +8,8 @@ Thumbs.db
 !.env.example
 .venv/
 venv/
+__pycache__/
+*.py[cod]
+node_modules/
+.next/
+.vercel/

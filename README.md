@@ -1,64 +1,72 @@
-# Velora AI Lab
+# Velora
 
 ```
 velora/
 ├── frontend/     # Next.js 15 → Vercel
-├── backend/      # FastAPI + LangGraph → Fly.io
+├── backend/      # FastAPI + LangGraph + Ollama → LOCAL ONLY
 ├── README.md
 └── .gitignore
 ```
 
-| Package | Stack | Deploy |
-|---------|--------|--------|
-| `frontend/` | Next.js 15, Tailwind, TypeScript | Vercel |
-| `backend/` | FastAPI, LangGraph, Ollama | Fly.io |
+| Package | Where it runs |
+|---------|----------------|
+| **frontend/** | Vercel (or `npm run dev`) |
+| **backend/** | Your computer only (not deployed) |
 
-## Backend layout
+## Architecture (local backend)
 
 ```
-backend/app/
-  main.py                 # FastAPI entry + CORS
-  config.py
-  llm.py
-  graph/
-    state.py
-    supervisor.py
-    researcher.py
-    writer.py
-    critic.py
-    tools.py              # Wikipedia + arXiv
-    graph.py
-  routers/agent.py        # POST /api/agent/run
-  services/runner.py
-  schemas/agent.py
+POST /run → Supervisor → Researcher → Supervisor → findings
+                ↑______________|
 ```
 
-## Run
+Model: **Ollama `qwen2.5:7b`** on localhost.
 
-### Backend
+## Quick start
+
+### 1. Backend (local)
 
 ```bash
 cd backend
 python -m venv .venv
-# Windows: .venv\Scripts\activate
+.venv\Scripts\activate          # Windows
 pip install -r requirements.txt
 ollama pull qwen2.5:7b
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### Frontend
+- Health: http://127.0.0.1:8000/health  
+- Run: `POST /run` `{ "task": "..." }`  
+- Docs: http://127.0.0.1:8000/docs  
+
+### 2. Frontend
 
 ```bash
 cd frontend
-cp .env.example .env.local   # NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
 npm install
+cp .env.example .env.local
 npm run dev
 ```
 
-- UI: http://127.0.0.1:3000  
-- API docs: http://127.0.0.1:8000/docs  
+http://127.0.0.1:3000
 
-## API
+## Layout
 
-`POST /api/agent/run` body: `{ "task": "..." }`  
-Returns `final_report`, `status`, `messages`, research/draft/critic fields.
+```
+backend/app/
+  main.py                 # CORS + POST /run
+  config.py / llm.py
+  graph/
+    state.py
+    supervisor.py
+    researcher.py
+    tools.py
+    graph.py
+
+frontend/
+  app/
+  components/LabApp.tsx
+  lib/api.ts              # calls local /run
+```
+
+No Docker / Fly.io — backend stays on your machine.
