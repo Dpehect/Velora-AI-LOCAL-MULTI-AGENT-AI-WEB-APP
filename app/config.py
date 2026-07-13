@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from functools import lru_cache
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -23,7 +24,16 @@ class Settings(BaseSettings):
     max_revisions: int = 2
     # HTTP
     api_title: str = "Velora AI Lab"
-    api_version: str = "0.2.0"
+    api_version: str = "0.3.0"
+    # CORS origins (comma-separated, or * for dev). Env: CORS_ORIGINS
+    cors_origins_raw: str = Field(default="*", validation_alias="CORS_ORIGINS")
+
+    @property
+    def cors_origins(self) -> list[str]:
+        raw = (self.cors_origins_raw or "*").strip()
+        if raw == "*":
+            return ["*"]
+        return [o.strip() for o in raw.split(",") if o.strip()]
 
 
 @lru_cache

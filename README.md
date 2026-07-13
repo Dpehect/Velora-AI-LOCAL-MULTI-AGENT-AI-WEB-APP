@@ -1,79 +1,101 @@
-# Velora AI — Local Multi-Agent (Phase 2)
+# Velora AI — Local Multi-Agent (Phase 3)
 
 Hierarchical multi-agent research pipeline with **FastAPI**, **LangGraph 1.x**, and **Ollama** (`qwen2.5:7b`). Fully local.
 
 ## Architecture
 
 ```
-START → Supervisor ⇄ Researcher
-                  ⇄ Writer
-                  ⇄ Critic
-                  → FINISH (+ final_report)
+START → Supervisor ⇄ Researcher | Writer | Critic → FINISH (+ final_report)
 ```
 
-Typical path:
+| Agent      | Role                                   |
+|------------|----------------------------------------|
+| Supervisor | Sole router                            |
+| Researcher | Wikipedia + arXiv → findings           |
+| Writer     | Findings → draft_report                |
+| Critic     | Draft → APPROVE / REVISE feedback      |
 
-```
-Supervisor → Researcher → Writer → Critic → (Writer if REVISE)* → Critic → done
+## Run API
+
+```bash
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+ollama pull qwen2.5:7b
+
+uvicorn app.main:app --reload
 ```
 
-| Agent      | Role                                              | Status   |
-|------------|---------------------------------------------------|----------|
-| Supervisor | Sole router (`next_agent` / `status`)             | ✅        |
-| Researcher | Wikipedia + arXiv → `research_findings`           | ✅        |
-| Writer     | Findings (+ feedback) → `draft_report`            | ✅ Phase-2 |
-| Critic     | Draft review → `critic_feedback` (APPROVE/REVISE) | ✅ Phase-2 |
+- Docs: http://127.0.0.1:8000/docs  
+- Health: http://127.0.0.1:8000/health  
+
+### Run the pipeline
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/agent/run ^
+  -H "Content-Type: application/json" ^
+  -d "{\"task\": \"Retrieval Augmented Generation\"}"
+```
+
+**Request**
+
+```json
+{ "task": "string", "thread_id": "optional-uuid" }
+```
+
+**Response** (selected fields)
+
+```json
+{
+  "thread_id": "...",
+  "task": "...",
+  "status": "done",
+  "final_report": "# ...",
+  "research_findings": "...",
+  "draft_report": "...",
+  "critic_feedback": "...",
+  "messages": [{ "role": "ai", "name": "supervisor", "content": "..." }],
+  "ok": true
+}
+```
+
+## Endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/health` | Liveness + model config |
+| `GET` | `/` | API index |
+| `POST` | `/api/agent/run` | Run full multi-agent graph |
+| `GET` | `/api/agent/graph` | Topology for UI |
 
 ## Layout
 
 ```
 app/
-  main.py
-  config.py               # max_revisions, Ollama settings
+  main.py                 # FastAPI app + CORS + /health
+  config.py
   llm.py
+  routers/
+    agent.py              # /api/agent/*
+  services/
+    runner.py             # graph.invoke wrapper
+  schemas/
+    agent.py              # Pydantic models
   graph/
-    state.py              # AgentState (+ revision_count)
+    state.py
     supervisor.py
     researcher.py
     writer.py
     critic.py
     tools.py
     graph.py
-requirements.txt
 ```
 
-## Prerequisites
+## Optional env
 
-1. Python 3.11+
-2. Ollama: `ollama pull qwen2.5:7b`
-3. `pip install -r requirements.txt`
-
-## Run
-
-```bash
-uvicorn app.main:app --reload --port 8000
+```env
+OLLAMA_MODEL=qwen2.5:7b
+OLLAMA_BASE_URL=http://localhost:11434
+MAX_REVISIONS=2
+CORS_ORIGINS=*
 ```
-
-```bash
-curl -X POST http://localhost:8000/research ^
-  -H "Content-Type: application/json" ^
-  -d "{\"topic\": \"Retrieval Augmented Generation\"}"
-```
-
-## Routing policy (Supervisor)
-
-1. No task → error / FINISH  
-2. No findings → **researcher**  
-3. Findings, no draft → **writer**  
-4. Draft, no feedback → **critic**  
-5. Verdict **REVISE** and `revision_count < max_revisions` → **writer** (then critic again)  
-6. **APPROVE** or revision budget exhausted → **FINISH**, copy draft → `final_report`  
-
-Deterministic fallback always applies if the LLM returns invalid JSON.
-
-## AgentState
-
-- `messages`, `current_task`
-- `research_findings`, `draft_report`, `critic_feedback`, `final_report`
-- `status`, `next_agent`, `supervisor_reasoning`
-- `revision_count` — Writer revision passes after Critic REVISE
