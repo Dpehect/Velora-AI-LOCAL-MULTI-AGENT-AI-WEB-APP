@@ -1,16 +1,18 @@
-# Velora backend — FastAPI + LangGraph + Ollama (scaffold)
+# FastAPI multi-agent research system (local / Ollama)
 fastapi>=0.115.0
 uvicorn[standard]>=0.32.0
 pydantic>=2.0.0
 pydantic-settings>=2.0.0
 python-dotenv>=1.0.0
 
+# LangGraph + LangChain
 langgraph>=1.0.0,<2.0.0
 langchain>=0.3.0
 langchain-core>=0.3.0
 langchain-ollama>=0.3.0
 langchain-community>=0.3.0
 
+# Research tools
 wikipedia>=1.4.0
 arxiv>=2.1.0
 requests>=2.31.0

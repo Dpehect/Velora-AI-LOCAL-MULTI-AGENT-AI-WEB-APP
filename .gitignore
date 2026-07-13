@@ -7,8 +7,5 @@ Thumbs.db
 .env
 .env.*
 !.env.example
-
-# Accidental root envs
 .venv/
 venv/
-node_modules/
