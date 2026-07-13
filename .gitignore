@@ -17,9 +17,12 @@ checkpoints/
 *.db
 *.sqlite3
 
-# Vercel local / build output
+# Node / Vercel
+node_modules/
 .vercel/
 public/
+dist/
+build/
 
 # OS / IDE
 .DS_Store
