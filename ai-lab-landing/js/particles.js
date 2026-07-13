@@ -1,5 +1,6 @@
 /**
- * tsParticles — very light ambient dots (Apple-quiet density)
+ * tsParticles — very light ambient field (Apple-quiet density)
+ * Soft indigo dots + faint links. Low count, low speed.
  */
 
 export async function initParticles() {
@@ -11,32 +12,32 @@ export async function initParticles() {
       id: "particles-bg",
       options: {
         fullScreen: { enable: false },
-        fpsLimit: 48,
+        fpsLimit: 45,
         detectRetina: true,
         background: { color: { value: "transparent" } },
         particles: {
           number: {
-            value: 28,
-            density: { enable: true, width: 1200, height: 800 },
+            value: 24,
+            density: { enable: true, width: 1400, height: 900 },
           },
           color: {
-            value: ["#6366F1", "#A5B4FC", "#C7D2FE"],
+            value: ["#6366F1", "#A5B4FC", "#C7D2FE", "#E0E7FF"],
           },
           opacity: {
-            value: { min: 0.08, max: 0.22 },
+            value: { min: 0.06, max: 0.18 },
             animation: {
               enable: true,
-              speed: 0.25,
+              speed: 0.2,
               sync: false,
               startValue: "random",
             },
           },
           size: {
-            value: { min: 1, max: 2.4 },
+            value: { min: 0.8, max: 2.2 },
           },
           move: {
             enable: true,
-            speed: 0.18,
+            speed: 0.15,
             direction: "none",
             random: true,
             straight: false,
@@ -44,10 +45,10 @@ export async function initParticles() {
           },
           links: {
             enable: true,
-            distance: 140,
+            distance: 130,
             color: "#C7D2FE",
-            opacity: 0.08,
-            width: 0.6,
+            opacity: 0.07,
+            width: 0.55,
           },
         },
         interactivity: {
@@ -58,10 +59,10 @@ export async function initParticles() {
           },
           modes: {
             repulse: {
-              distance: 80,
-              duration: 0.6,
-              factor: 0.4,
-              speed: 0.4,
+              distance: 72,
+              duration: 0.55,
+              factor: 0.35,
+              speed: 0.35,
             },
           },
         },

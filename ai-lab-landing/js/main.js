@@ -1,11 +1,19 @@
 /**
- * AI Lab Landing — Lenis + GSAP + tsParticles + Canvas
- * Premium, quiet motion. No 3D.
+ * Velora AI Lab Landing
+ * Lenis + GSAP + ScrollTrigger + tsParticles + Canvas
+ * Quiet, premium motion — no 3D.
  */
 
 import { initLenis } from "./lenis-setup.js";
 import { initParticles } from "./particles.js";
-import { initNavbar, initHero, initReveals, initSteps, initMagnetic } from "./animations.js";
+import {
+  initNavbar,
+  initHero,
+  initReveals,
+  initSteps,
+  initMagnetic,
+  initMobileMenu,
+} from "./animations.js";
 import { initTrailCanvas } from "./canvas-interactive.js";
 
 function ready(fn) {
@@ -21,14 +29,14 @@ ready(async () => {
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Smooth scroll (skip heavy smoothing if user prefers reduced motion)
+  // Smooth scroll
   const lenis = reduced ? null : initLenis();
 
-  // GSAP plugins
+  // GSAP + Lenis ticker sync
   if (window.gsap && window.ScrollTrigger) {
     window.gsap.registerPlugin(window.ScrollTrigger);
+
     if (lenis) {
-      // Keep ScrollTrigger in sync with Lenis
       lenis.on("scroll", window.ScrollTrigger.update);
       window.gsap.ticker.add((time) => {
         lenis.raf(time * 1000);
@@ -37,18 +45,19 @@ ready(async () => {
     }
   }
 
-  // Ambient background
+  // Ambient particles
   await initParticles();
 
-  // Motion systems
-  initNavbar();
+  // UI systems
+  initNavbar(lenis);
+  initMobileMenu(lenis);
   initHero(reduced);
   initReveals(reduced);
   initSteps(reduced);
   initMagnetic(reduced);
   initTrailCanvas(reduced);
 
-  // Soft refresh after layout settles
+  // Layout settle → refresh triggers
   requestAnimationFrame(() => {
     if (window.ScrollTrigger) window.ScrollTrigger.refresh();
   });

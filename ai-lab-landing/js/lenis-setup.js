@@ -9,17 +9,17 @@ export function initLenis() {
   }
 
   const lenis = new Lenis({
-    duration: 1.35,
+    duration: 1.4,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     orientation: "vertical",
     gestureOrientation: "vertical",
     smoothWheel: true,
-    touchMultiplier: 1.4,
-    wheelMultiplier: 0.95,
-    autoRaf: false, // GSAP ticker drives raf in main.js
+    touchMultiplier: 1.35,
+    wheelMultiplier: 0.92,
+    autoRaf: false, // driven by GSAP ticker in main.js
   });
 
-  // Anchor links via Lenis
+  // Smooth anchor navigation
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", (e) => {
       const id = anchor.getAttribute("href");
@@ -28,8 +28,8 @@ export function initLenis() {
       if (!target) return;
       e.preventDefault();
       lenis.scrollTo(target, {
-        offset: -72,
-        duration: 1.4,
+        offset: -80,
+        duration: 1.45,
       });
     });
   });
