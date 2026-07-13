@@ -1,71 +1,52 @@
 # Velora AI Lab — Landing Page
 
-Apple Intelligence tarzı, temiz ve premium bir landing page. Cyberpunk / neon değil — yumuşak beyaz, bol whitespace, zarif tipografi.
+Apple Intelligence–inspired landing page: soft white canvas, generous whitespace, elegant type. Not cyberpunk or neon.
 
 ## Stack
 
-| Teknoloji | Kullanım |
-|-----------|----------|
-| **Lenis** | Ultra smooth scroll |
-| **GSAP + ScrollTrigger** | Hero stagger, reveal, timeline, magnetic hover |
-| **Tailwind CSS** | Layout & utility |
-| **backdrop-filter** | Glass navbar, kartlar, CTA |
-| **tsParticles** | Hafif ambient arka plan (düşük yoğunluk) |
-| **Canvas 2D** | “Deneyimle” interaktif ışık izi |
+| Tech | Role |
+|------|------|
+| **Lenis** | Ultra-smooth scroll |
+| **GSAP + ScrollTrigger** | Hero stagger, reveals, timeline, magnetic hover |
+| **Tailwind CSS** | Layout & utilities |
+| **backdrop-filter** | Glass navbar, cards, CTA |
+| **tsParticles** | Light ambient background |
+| **Canvas 2D** | Interactive light trail |
 
-3D / Three.js / React Three Fiber **yok**.
+No Three.js / R3F.
 
-## Renk paleti
+## Brand
 
-| Rol | Değer |
-|-----|--------|
-| Ana arka plan | `#FAFAFA` |
-| Kart / cam | Beyaz + blur |
-| Vurgu | Soft Indigo `#6366F1` |
-| Metin | `#1D1D1F` / `#6E6E73` |
+| Asset | Path |
+|-------|------|
+| Logo mark | `assets/logo-mark.svg` |
+| Full wordmark | `assets/logo.svg` |
+| Favicon | `assets/logo-mark.svg` |
 
-## Çalıştırma
+Soft indigo mark: abstract **V** arc + intelligence node on a glass tile.
 
-ES modules nedeniyle yerel sunucu gerekir (`file://` sorun çıkarabilir):
+## Run locally
 
 ```powershell
 cd ai-lab-landing
-
-# Python
 python -m http.server 5173
-
-# veya Node
-npx --yes serve -l 5173
 ```
 
-Tarayıcı: [http://localhost:5173](http://localhost:5173)
+Open [http://localhost:5173](http://localhost:5173)
 
-## Bölümler
+## Sections
 
-1. **Navbar** — şeffaf → scroll’da blur + küçülme (GSAP + backdrop-filter)
-2. **Hero** — staggered GSAP giriş + soft particles + ambient orbs
-3. **Features** — 4 glass kart, magnetic lift + hafif tilt
-4. **How it Works** — 4 adım, ScrollTrigger sol/sağ reveal + timeline çizgisi
-5. **Deneyimle** — Canvas pointer trail + tıklama parıltısı
-6. **CTA + Footer**
+1. Navbar — transparent → blur on scroll  
+2. Hero — staggered GSAP entrance  
+3. Features — 4 glass cards, magnetic lift  
+4. How it works — 4 steps + timeline  
+5. Experience — canvas trail  
+6. CTA + Footer  
 
-## Dosya yapısı
+## Palette
 
-```
-ai-lab-landing/
-  index.html
-  css/styles.css
-  js/
-    main.js              # bootstrap
-    lenis-setup.js       # smooth scroll
-    animations.js        # GSAP systems
-    particles.js         # tsParticles
-    canvas-interactive.js
-  README.md
-```
+- Background: `#FAFAFA`
+- Accent: `#6366F1`
+- Text: `#1D1D1F` / `#6E6E73`
 
-## Notlar
-
-- `prefers-reduced-motion` desteklenir (animasyonlar sadeleşir, Lenis kapanır).
-- Kütüphaneler CDN üzerinden yüklenir (internet gerekir).
-- Animasyonlar yavaş ve premium; abartısız.
+UI copy is **English**. `prefers-reduced-motion` is supported.

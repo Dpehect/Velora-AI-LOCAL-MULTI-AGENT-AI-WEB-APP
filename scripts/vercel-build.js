@@ -17,7 +17,7 @@ function rmDir(dir) {
 function copyDir(src, dest) {
   fs.mkdirSync(dest, { recursive: true });
   for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
-    // skip markdown docs in deploy output
+    // skip docs in deploy output
     if (entry.name === "README.md") continue;
     const from = path.join(src, entry.name);
     const to = path.join(dest, entry.name);

@@ -52,7 +52,7 @@ export function initMobileMenu(lenis = null) {
     open = next;
     menu.classList.toggle("hidden", !open);
     toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Menüyü kapat" : "Menüyü aç");
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     if (iconOpen) iconOpen.classList.toggle("hidden", open);
     if (iconClose) iconClose.classList.toggle("hidden", !open);
 

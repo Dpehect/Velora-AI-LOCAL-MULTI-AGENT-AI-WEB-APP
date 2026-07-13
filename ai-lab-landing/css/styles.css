@@ -112,16 +112,14 @@ footer {
 
 /* ---------- Logo ---------- */
 
-.logo-dot {
-  box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
-}
-
-.logo-mark {
+/* Brand mark */
+.logo-mark-img {
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 0.7rem;
 }
 
-a:hover .logo-mark {
-  transform: scale(1.04);
+.brand-link:hover .logo-mark-img {
+  transform: scale(1.05);
 }
 
 /* ---------- Navbar glass ---------- */
