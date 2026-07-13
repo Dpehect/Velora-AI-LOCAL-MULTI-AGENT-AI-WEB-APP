@@ -8,6 +8,7 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+*.egg
 
 # Env & local state
 .env
@@ -17,12 +18,18 @@ checkpoints/
 *.db
 *.sqlite3
 
-# Node / Vercel
+# Node
 node_modules/
-.vercel/
-public/
+.npm
+.next/
+out/
 dist/
 build/
+.turbo/
+
+# Deploy
+.vercel/
+.fly/
 
 # OS / IDE
 .DS_Store
@@ -30,3 +37,11 @@ Thumbs.db
 .idea/
 .vscode/
 *.log
+
+# Backend local venv
+backend/.venv/
+
+# Frontend build
+frontend/node_modules/
+frontend/.next/
+frontend/out/

@@ -1,101 +1,100 @@
-# Velora AI — Local Multi-Agent (Phase 3)
+# Velora AI Lab
 
-Hierarchical multi-agent research pipeline with **FastAPI**, **LangGraph 1.x**, and **Ollama** (`qwen2.5:7b`). Fully local.
-
-## Architecture
+Local multi-agent research system — **Next.js** frontend (Vercel) + **FastAPI / LangGraph** backend (Fly.io) + **Ollama**.
 
 ```
-START → Supervisor ⇄ Researcher | Writer | Critic → FINISH (+ final_report)
+velora/   (this repo)
+├── frontend/          # Vercel — Next.js 15 + Tailwind + TypeScript
+├── backend/           # Fly.io  — FastAPI + LangGraph + Ollama client
+├── README.md
+└── .gitignore
 ```
 
-| Agent      | Role                                   |
-|------------|----------------------------------------|
-| Supervisor | Sole router                            |
-| Researcher | Wikipedia + arXiv → findings           |
-| Writer     | Findings → draft_report                |
-| Critic     | Draft → APPROVE / REVISE feedback      |
+## Stack
 
-## Run API
+| Layer    | Tech                         | Deploy  |
+|----------|------------------------------|---------|
+| Frontend | Next.js 15, Tailwind, TS     | Vercel  |
+| Backend  | FastAPI, LangGraph, Ollama   | Fly.io  |
+| LLM      | Ollama (`qwen2.5:7b`)        | Local / private host |
+
+> **Scaffold status:** Folder structure and base configs are in place. Agent logic and UI will be filled in subsequent steps.
+
+## Structure
+
+```
+frontend/
+├── app/                 # App Router
+├── components/          # UI components
+├── lib/                 # utilities / API client
+├── public/
+├── package.json
+├── tailwind.config.ts
+├── tsconfig.json
+├── next.config.ts
+└── vercel.json
+
+backend/
+├── app/
+│   ├── graph/           # LangGraph (state, supervisor, researcher, …)
+│   ├── routers/
+│   ├── schemas/
+│   ├── services/
+│   └── main.py
+├── Dockerfile
+├── fly.toml
+├── requirements.txt
+└── .env.example
+```
+
+## Local development
+
+### Backend
 
 ```bash
+cd backend
 python -m venv .venv
 # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-ollama pull qwen2.5:7b
-
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --port 8000
 ```
 
-- Docs: http://127.0.0.1:8000/docs  
-- Health: http://127.0.0.1:8000/health  
+Health: http://127.0.0.1:8000/health
 
-### Run the pipeline
+### Frontend
 
 ```bash
-curl -X POST http://127.0.0.1:8000/api/agent/run ^
-  -H "Content-Type: application/json" ^
-  -d "{\"task\": \"Retrieval Augmented Generation\"}"
+cd frontend
+npm install
+npm run dev
 ```
 
-**Request**
+App: http://127.0.0.1:3000
 
-```json
-{ "task": "string", "thread_id": "optional-uuid" }
-```
-
-**Response** (selected fields)
-
-```json
-{
-  "thread_id": "...",
-  "task": "...",
-  "status": "done",
-  "final_report": "# ...",
-  "research_findings": "...",
-  "draft_report": "...",
-  "critic_feedback": "...",
-  "messages": [{ "role": "ai", "name": "supervisor", "content": "..." }],
-  "ok": true
-}
-```
-
-## Endpoints
-
-| Method | Path | Description |
-|--------|------|-------------|
-| `GET` | `/health` | Liveness + model config |
-| `GET` | `/` | API index |
-| `POST` | `/api/agent/run` | Run full multi-agent graph |
-| `GET` | `/api/agent/graph` | Topology for UI |
-
-## Layout
-
-```
-app/
-  main.py                 # FastAPI app + CORS + /health
-  config.py
-  llm.py
-  routers/
-    agent.py              # /api/agent/*
-  services/
-    runner.py             # graph.invoke wrapper
-  schemas/
-    agent.py              # Pydantic models
-  graph/
-    state.py
-    supervisor.py
-    researcher.py
-    writer.py
-    critic.py
-    tools.py
-    graph.py
-```
-
-## Optional env
+Copy `frontend/.env.example` → `frontend/.env.local` and set:
 
 ```env
-OLLAMA_MODEL=qwen2.5:7b
-OLLAMA_BASE_URL=http://localhost:11434
-MAX_REVISIONS=2
-CORS_ORIGINS=*
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+```
+
+## Deploy (later)
+
+### Vercel (frontend)
+
+- Root Directory: `frontend`
+- Framework: Next.js
+- Env: `NEXT_PUBLIC_API_URL=<fly-backend-url>`
+
+### Fly.io (backend)
+
+```bash
+cd backend
+fly launch   # or: fly apps create velora-ai-lab-api
+fly deploy
+```
+
+Configure Ollama URL via secrets:
+
+```bash
+fly secrets set OLLAMA_BASE_URL=https://your-ollama-host OLLAMA_MODEL=qwen2.5:7b
 ```
