@@ -1,5 +1,5 @@
 """
-Velora AI Lab — FastAPI entrypoint (Phase-1).
+Velora AI Lab — FastAPI entrypoint (Phase-2).
 
 Run:
     uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
@@ -23,7 +23,7 @@ app = FastAPI(
     title=settings.api_title,
     version=settings.api_version,
     description=(
-        "Phase-1 multi-agent research API: Supervisor + Researcher "
+        "Phase-2 multi-agent research API: Supervisor + Researcher + Writer + Critic "
         "(Wikipedia + arXiv) via LangGraph + Ollama."
     ),
 )
@@ -65,7 +65,7 @@ class HealthResponse(BaseModel):
     status: str
     model: str
     ollama_base_url: str
-    phase: str = "1"
+    phase: str = "2"
 
 
 # ---------- Routes ----------
@@ -75,7 +75,7 @@ class HealthResponse(BaseModel):
 def root() -> dict[str, Any]:
     return {
         "name": settings.api_title,
-        "phase": 1,
+        "phase": 2,
         "docs": "/docs",
         "health": "/health",
         "research": "POST /research",
@@ -88,14 +88,15 @@ def health() -> HealthResponse:
         status="ok",
         model=settings.ollama_model,
         ollama_base_url=settings.ollama_base_url,
-        phase="1",
+        phase="2",
     )
 
 
 @app.post("/research", response_model=ResearchResponse, tags=["agents"])
 def research(body: ResearchRequest) -> ResearchResponse:
     """
-    Run the Phase-1 graph: Supervisor → Researcher → Supervisor → FINISH.
+    Run the full Phase-2 graph:
+    Supervisor ⇄ Researcher / Writer / Critic → FINISH (+ final_report).
     Requires Ollama running with the configured model.
     """
     topic = body.topic.strip()
@@ -135,11 +136,14 @@ def research(body: ResearchRequest) -> ResearchResponse:
 
 @app.get("/graph", tags=["meta"])
 def graph_info() -> dict[str, Any]:
-    """Describe Phase-1 topology (for debugging / UI)."""
+    """Describe Phase-2 topology (for debugging / UI)."""
     return {
-        "phase": 1,
-        "nodes": ["supervisor", "researcher"],
-        "flow": "START → supervisor ⇄ researcher → supervisor → END",
-        "phase2_planned": ["writer", "critic"],
+        "phase": 2,
+        "nodes": ["supervisor", "researcher", "writer", "critic"],
+        "flow": (
+            "START → supervisor ⇄ researcher|writer|critic → "
+            "(REVISE loop writer↔critic) → END"
+        ),
+        "max_revisions": settings.max_revisions,
         "model": settings.ollama_model,
     }

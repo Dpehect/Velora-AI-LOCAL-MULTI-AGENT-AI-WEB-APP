@@ -19,9 +19,11 @@ class Settings(BaseSettings):
     temperature: float = 0.2
     # Researcher tool-calling budget
     researcher_max_iters: int = 4
+    # Writer←Critic revision loop budget (Phase-2)
+    max_revisions: int = 2
     # HTTP
     api_title: str = "Velora AI Lab"
-    api_version: str = "0.1.0"
+    api_version: str = "0.2.0"
 
 
 @lru_cache

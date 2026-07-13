@@ -7,7 +7,7 @@ from typing import Annotated, Literal, Optional, Sequence, TypedDict
 from langchain_core.messages import AnyMessage, BaseMessage
 from langgraph.graph.message import add_messages
 
-# Agent routing targets (Phase-1 implements researcher + FINISH only)
+# Agent routing targets (Phase-2: full pipeline)
 NextAgent = Literal["researcher", "writer", "critic", "FINISH"]
 
 # Pipeline status labels
@@ -34,17 +34,19 @@ class AgentState(TypedDict, total=False):
     research_findings:
         Structured brief produced by the Researcher.
     draft_report:
-        Writer output (Phase-2 placeholder).
+        Writer Markdown report (initial or revised).
     critic_feedback:
-        Critic notes (Phase-2 placeholder).
+        Critic review with APPROVE/REVISE verdict.
     final_report:
-        Deliverable after review (Phase-2 placeholder).
+        Approved (or budget-exhausted) deliverable.
     status:
         High-level pipeline stage.
     next_agent:
         Supervisor routing decision.
     supervisor_reasoning:
         Short explanation of the last Supervisor decision (debug / UI).
+    revision_count:
+        How many Writer revision passes have been applied after Critic REVISE.
     """
 
     messages: Annotated[Sequence[BaseMessage | AnyMessage], add_messages]
@@ -56,6 +58,7 @@ class AgentState(TypedDict, total=False):
     status: Status
     next_agent: NextAgent
     supervisor_reasoning: str
+    revision_count: int
 
 
 def initial_state(task: str = "") -> AgentState:
@@ -70,6 +73,7 @@ def initial_state(task: str = "") -> AgentState:
         status="idle",
         next_agent="FINISH",
         supervisor_reasoning="",
+        revision_count=0,
     )
 
 
