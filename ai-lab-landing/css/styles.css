@@ -1,0 +1,158 @@
+/* AI Lab — premium minimal base styles */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis owns scrolling */
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background-color: #fafafa;
+  color: #1d1d1f;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(99, 102, 241, 0.18);
+  color: #1d1d1f;
+}
+
+/* Ambient particle layer */
+#particles-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+main,
+header,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Navbar glass states */
+#navbar {
+  background: transparent;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  border-bottom: 1px solid transparent;
+}
+
+#navbar.is-scrolled {
+  background: rgba(250, 250, 250, 0.72);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom-color: rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset;
+}
+
+#navbar.is-scrolled .nav-inner {
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 1px;
+  background: #6366f1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Feature cards */
+.feature-card {
+  will-change: transform, box-shadow;
+  transition: box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.feature-card.is-hovered {
+  box-shadow:
+    0 24px 48px -16px rgba(99, 102, 241, 0.14),
+    0 12px 20px -10px rgba(0, 0, 0, 0.08);
+}
+
+/* Magnetic buttons keep inner text smooth */
+.magnetic-btn {
+  position: relative;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.magnetic-text {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Timeline steps start slightly offset for ScrollTrigger */
+.step-item {
+  opacity: 0;
+}
+
+/* Canvas container subtle inner glow */
+#trail-canvas {
+  background:
+    radial-gradient(
+      ellipse 60% 50% at 50% 50%,
+      rgba(99, 102, 241, 0.04) 0%,
+      transparent 70%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(250, 250, 250, 0.2) 100%);
+}
+
+/* Reduce motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Mobile menu (simple) */
+@media (max-width: 767px) {
+  .nav-mobile-open {
+    display: flex;
+  }
+}

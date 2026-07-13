@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Lab — Intelligence, quietly powerful</title>
+    <meta
+      name="description"
+      content="AI Lab — Apple tarzı, temiz ve premium yapay zeka deneyimi."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              canvas: "#FAFAFA",
+              ink: {
+                50: "#F5F5F7",
+                100: "#E8E8ED",
+                200: "#D2D2D7",
+                300: "#A1A1A6",
+                400: "#6E6E73",
+                500: "#424245",
+                600: "#1D1D1F",
+              },
+              accent: {
+                DEFAULT: "#6366F1",
+                soft: "#818CF8",
+                muted: "#EEF2FF",
+                deep: "#4F46E5",
+              },
+            },
+            fontFamily: {
+              sans: [
+                "Inter",
+                "-apple-system",
+                "BlinkMacSystemFont",
+                "Segoe UI",
+                "sans-serif",
+              ],
+            },
+            boxShadow: {
+              soft: "0 4px 24px -4px rgba(0,0,0,0.06), 0 2px 8px -2px rgba(0,0,0,0.04)",
+              lift: "0 20px 40px -12px rgba(99,102,241,0.12), 0 8px 16px -8px rgba(0,0,0,0.08)",
+              glass: "0 8px 32px rgba(0,0,0,0.04)",
+            },
+            letterSpacing: {
+              tighter2: "-0.04em",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="bg-canvas text-ink-600 font-sans antialiased overflow-x-hidden">
+    <!-- Ambient particles -->
+    <div id="particles-bg" aria-hidden="true"></div>
+
+    <!-- Navbar -->
+    <header
+      id="navbar"
+      class="fixed top-0 left-0 right-0 z-50 transition-[padding,background,box-shadow] duration-500"
+    >
+      <div
+        class="nav-inner mx-auto max-w-6xl px-6 py-5 flex items-center justify-between"
+      >
+        <a href="#top" class="flex items-center gap-2.5 group">
+          <span
+            class="logo-mark relative flex h-8 w-8 items-center justify-center rounded-xl bg-white/80 shadow-soft ring-1 ring-black/[0.04]"
+          >
+            <span
+              class="h-2.5 w-2.5 rounded-full bg-accent shadow-[0_0_12px_rgba(99,102,241,0.45)]"
+            ></span>
+          </span>
+          <span class="text-[15px] font-semibold tracking-tight text-ink-600"
+            >AI Lab</span
+          >
+        </a>
+
+        <nav class="hidden md:flex items-center gap-9 text-[13px] font-medium text-ink-400">
+          <a href="#features" class="nav-link hover:text-ink-600 transition-colors"
+            >Özellikler</a
+          >
+          <a href="#how" class="nav-link hover:text-ink-600 transition-colors"
+            >Nasıl Çalışır</a
+          >
+          <a href="#experience" class="nav-link hover:text-ink-600 transition-colors"
+            >Deneyimle</a
+          >
+        </nav>
+
+        <a
+          href="#experience"
+          class="magnetic-btn hidden sm:inline-flex items-center rounded-full bg-ink-600 px-5 py-2 text-[13px] font-medium text-white shadow-soft hover:bg-ink-500 transition-colors"
+        >
+          <span class="magnetic-text">Başla</span>
+        </a>
+
+        <button
+          id="menu-toggle"
+          class="md:hidden p-2 rounded-lg text-ink-500"
+          aria-label="Menü"
+        >
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 7h14M4 11h14M4 15h14" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- Hero -->
+      <section
+        class="relative min-h-[100svh] flex flex-col items-center justify-center px-6 pt-24 pb-20"
+      >
+        <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+          <div
+            class="hero-glow absolute top-1/4 left-1/2 -translate-x-1/2 w-[min(80vw,640px)] h-[min(50vw,400px)] rounded-full bg-accent/10 blur-[100px]"
+          ></div>
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto text-center">
+          <p
+            class="hero-eyebrow inline-flex items-center gap-2 mb-8 rounded-full border border-ink-100 bg-white/60 px-4 py-1.5 text-[12px] font-medium tracking-wide text-ink-400 backdrop-blur-md shadow-soft opacity-0"
+          >
+            <span class="h-1.5 w-1.5 rounded-full bg-accent animate-pulse"></span>
+            Intelligence, quietly powerful
+          </p>
+
+          <h1
+            class="hero-title text-[clamp(2.5rem,7vw,4.75rem)] font-semibold leading-[1.05] tracking-tighter2 text-ink-600"
+          >
+            <span class="hero-line block overflow-hidden">
+              <span class="hero-line-inner inline-block opacity-0">Düşüncenin</span>
+            </span>
+            <span class="hero-line block overflow-hidden">
+              <span class="hero-line-inner inline-block opacity-0"
+                >en sade hali.</span
+              >
+            </span>
+          </h1>
+
+          <p
+            class="hero-sub mx-auto mt-7 max-w-xl text-[17px] sm:text-[18px] leading-relaxed text-ink-400 font-normal opacity-0"
+          >
+            AI Lab, araştırmadan üretime kadar tüm akışı tek bir zarif arayüzde
+            birleştirir. Gürültü yok — yalnızca netlik.
+          </p>
+
+          <div
+            class="hero-cta mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 opacity-0"
+          >
+            <a
+              href="#experience"
+              class="magnetic-btn group inline-flex items-center justify-center rounded-full bg-accent px-8 py-3.5 text-[15px] font-medium text-white shadow-[0_8px_24px_-6px_rgba(99,102,241,0.45)] hover:bg-accent-deep transition-colors w-full sm:w-auto"
+            >
+              <span class="magnetic-text">Deneyimi başlat</span>
+            </a>
+            <a
+              href="#features"
+              class="magnetic-btn inline-flex items-center justify-center rounded-full border border-ink-100 bg-white/70 px-8 py-3.5 text-[15px] font-medium text-ink-500 backdrop-blur-md shadow-soft hover:border-ink-200 hover:text-ink-600 transition-colors w-full sm:w-auto"
+            >
+              <span class="magnetic-text">Keşfet</span>
+            </a>
+          </div>
+        </div>
+
+        <div
+          class="hero-scroll absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0"
+        >
+          <span class="text-[11px] tracking-widest uppercase text-ink-300"
+            >Kaydır</span
+          >
+          <span class="scroll-line h-8 w-px bg-gradient-to-b from-ink-200 to-transparent"></span>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section id="features" class="relative py-28 sm:py-36 px-6">
+        <div class="max-w-6xl mx-auto">
+          <div class="section-header max-w-2xl mb-16 sm:mb-20">
+            <p
+              class="reveal-up text-[12px] font-semibold tracking-[0.16em] uppercase text-accent mb-4"
+            >
+              Özellikler
+            </p>
+            <h2
+              class="reveal-up text-[clamp(1.85rem,4vw,2.75rem)] font-semibold tracking-tighter2 text-ink-600 leading-tight"
+            >
+              Her detay, sade bir zekâ için.
+            </h2>
+            <p class="reveal-up mt-5 text-[16px] sm:text-[17px] text-ink-400 leading-relaxed">
+              Gereksiz katmanlar yok. Yalnızca işe yarayan, güzel hissettiren
+              araçlar.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+            <article
+              class="feature-card magnetic-card group relative rounded-3xl border border-white/80 bg-white/70 p-8 sm:p-9 backdrop-blur-xl shadow-soft"
+              data-speed="0.6"
+            >
+              <div
+                class="mb-6 flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-muted text-accent"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="M20 20l-3.5-3.5" stroke-linecap="round" />
+                </svg>
+              </div>
+              <h3 class="text-[18px] font-semibold tracking-tight text-ink-600">
+                Derin araştırma
+              </h3>
+              <p class="mt-3 text-[15px] leading-relaxed text-ink-400">
+                Kaynakları süzgeçten geçirir, gürültüyü ayıklar ve yalnızca
+                güvenilir bulguları öne çıkarır.
+              </p>
+            </article>
+
+            <article
+              class="feature-card magnetic-card group relative rounded-3xl border border-white/80 bg-white/70 p-8 sm:p-9 backdrop-blur-xl shadow-soft"
+              data-speed="0.8"
+            >
+              <div
+                class="mb-6 flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-muted text-accent"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <h3 class="text-[18px] font-semibold tracking-tight text-ink-600">
+                Yapılandırılmış çıktı
+              </h3>
+              <p class="mt-3 text-[15px] leading-relaxed text-ink-400">
+                Ham notları net başlıklar, özetler ve aksiyon maddelerine
+                dönüştürür — rapor kalitesinde.
+              </p>
+            </article>
+
+            <article
+              class="feature-card magnetic-card group relative rounded-3xl border border-white/80 bg-white/70 p-8 sm:p-9 backdrop-blur-xl shadow-soft"
+              data-speed="0.7"
+            >
+              <div
+                class="mb-6 flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-muted text-accent"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5L12 3z" stroke-linejoin="round" />
+                  <path d="M18 15l.75 2.25L21 18l-2.25.75L18 21l-.75-2.25L15 18l2.25-.75L18 15z" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <h3 class="text-[18px] font-semibold tracking-tight text-ink-600">
+                Zarif denetim
+              </h3>
+              <p class="mt-3 text-[15px] leading-relaxed text-ink-400">
+                Her adımda kalite kontrolü: tutarlılık, doğruluk ve ton — sessiz
+                ama kararlı.
+              </p>
+            </article>
+
+            <article
+              class="feature-card magnetic-card group relative rounded-3xl border border-white/80 bg-white/70 p-8 sm:p-9 backdrop-blur-xl shadow-soft"
+              data-speed="0.9"
+            >
+              <div
+                class="mb-6 flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-muted text-accent"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <rect x="4" y="4" width="16" height="16" rx="3" />
+                  <path d="M8 12h8M12 8v8" stroke-linecap="round" />
+                </svg>
+              </div>
+              <h3 class="text-[18px] font-semibold tracking-tight text-ink-600">
+                Yerel öncelik
+              </h3>
+              <p class="mt-3 text-[15px] leading-relaxed text-ink-400">
+                Veriniz sizin kontrolünüzde kalır. Gizlilik varsayılan; bulut
+                zorunlu değil.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it works -->
+      <section id="how" class="relative py-28 sm:py-36 px-6">
+        <div class="max-w-4xl mx-auto">
+          <div class="section-header text-center max-w-2xl mx-auto mb-16 sm:mb-24">
+            <p
+              class="reveal-up text-[12px] font-semibold tracking-[0.16em] uppercase text-accent mb-4"
+            >
+              Nasıl çalışır
+            </p>
+            <h2
+              class="reveal-up text-[clamp(1.85rem,4vw,2.75rem)] font-semibold tracking-tighter2 text-ink-600 leading-tight"
+            >
+              Dört adımda netlik.
+            </h2>
+            <p class="reveal-up mt-5 text-[16px] sm:text-[17px] text-ink-400 leading-relaxed">
+              Karmaşık iş akışları yerine sakin, anlaşılır bir süreç.
+            </p>
+          </div>
+
+          <div class="relative">
+            <!-- Vertical timeline line -->
+            <div
+              class="absolute left-[19px] sm:left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-ink-100 overflow-hidden"
+              aria-hidden="true"
+            >
+              <div
+                id="timeline-progress"
+                class="absolute top-0 left-0 w-full h-0 bg-gradient-to-b from-accent/80 to-accent/20"
+              ></div>
+            </div>
+
+            <!-- Steps -->
+            <ol class="relative space-y-14 sm:space-y-20">
+              <li class="step-item step-left relative sm:grid sm:grid-cols-2 sm:gap-16">
+                <div class="pl-14 sm:pl-0 sm:pr-8 sm:text-right">
+                  <span
+                    class="step-num inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-[13px] font-semibold text-accent shadow-soft ring-1 ring-ink-100 absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-0 z-10"
+                    >01</span
+                  >
+                  <h3 class="text-[18px] sm:text-[20px] font-semibold tracking-tight text-ink-600">
+                    Konuyu tanımla
+                  </h3>
+                  <p class="mt-3 text-[15px] text-ink-400 leading-relaxed">
+                    Ne araştırdığınızı bir cümleyle anlatın. Sistem bağlamı
+                    anlar ve odağı netleştirir.
+                  </p>
+                </div>
+                <div class="hidden sm:block"></div>
+              </li>
+
+              <li class="step-item step-right relative sm:grid sm:grid-cols-2 sm:gap-16">
+                <div class="hidden sm:block"></div>
+                <div class="pl-14 sm:pl-8">
+                  <span
+                    class="step-num inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-[13px] font-semibold text-accent shadow-soft ring-1 ring-ink-100 absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-0 z-10"
+                    >02</span
+                  >
+                  <h3 class="text-[18px] sm:text-[20px] font-semibold tracking-tight text-ink-600">
+                    Bilgiyi topla
+                  </h3>
+                  <p class="mt-3 text-[15px] text-ink-400 leading-relaxed">
+                    Güvenilir kaynaklardan sakin bir tarama. Önemli olan her şey
+                    süzülür, fazlası bırakılır.
+                  </p>
+                </div>
+              </li>
+
+              <li class="step-item step-left relative sm:grid sm:grid-cols-2 sm:gap-16">
+                <div class="pl-14 sm:pl-0 sm:pr-8 sm:text-right">
+                  <span
+                    class="step-num inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-[13px] font-semibold text-accent shadow-soft ring-1 ring-ink-100 absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-0 z-10"
+                    >03</span
+                  >
+                  <h3 class="text-[18px] sm:text-[20px] font-semibold tracking-tight text-ink-600">
+                    Raporu biçimlendir
+                  </h3>
+                  <p class="mt-3 text-[15px] text-ink-400 leading-relaxed">
+                    Bulgular profesyonel bir yapıya oturur: başlıklar, özetler
+                    ve okunabilir akış.
+                  </p>
+                </div>
+                <div class="hidden sm:block"></div>
+              </li>
+
+              <li class="step-item step-right relative sm:grid sm:grid-cols-2 sm:gap-16">
+                <div class="hidden sm:block"></div>
+                <div class="pl-14 sm:pl-8">
+                  <span
+                    class="step-num inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-[13px] font-semibold text-accent shadow-soft ring-1 ring-ink-100 absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-0 z-10"
+                    >04</span
+                  >
+                  <h3 class="text-[18px] sm:text-[20px] font-semibold tracking-tight text-ink-600">
+                    Doğrula ve teslim et
+                  </h3>
+                  <p class="mt-3 text-[15px] text-ink-400 leading-relaxed">
+                    Son bir kalite turu. Tutarlı, doğrulanmış ve sunuma hazır
+                    çıktı.
+                  </p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive canvas -->
+      <section id="experience" class="relative py-28 sm:py-36 px-6">
+        <div class="max-w-6xl mx-auto">
+          <div class="section-header text-center max-w-2xl mx-auto mb-12 sm:mb-14">
+            <p
+              class="reveal-up text-[12px] font-semibold tracking-[0.16em] uppercase text-accent mb-4"
+            >
+              Etkileşim
+            </p>
+            <h2
+              class="reveal-up text-[clamp(1.85rem,4vw,2.75rem)] font-semibold tracking-tighter2 text-ink-600 leading-tight"
+            >
+              Deneyimle
+            </h2>
+            <p class="reveal-up mt-5 text-[16px] sm:text-[17px] text-ink-400 leading-relaxed">
+              İmleci alan üzerinde gezdirin. Işık, hareketinize yumuşakça eşlik
+              eder.
+            </p>
+          </div>
+
+          <div
+            class="reveal-up relative mx-auto max-w-4xl overflow-hidden rounded-[2rem] border border-white/80 bg-white/50 shadow-glass backdrop-blur-xl"
+          >
+            <canvas
+              id="trail-canvas"
+              class="block w-full h-[min(52vh,420px)] cursor-crosshair touch-none"
+              aria-label="İnteraktif ışık alanı"
+            ></canvas>
+            <div
+              class="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pb-5"
+            >
+              <span
+                class="rounded-full bg-white/80 px-4 py-1.5 text-[12px] font-medium text-ink-300 backdrop-blur-md shadow-soft ring-1 ring-ink-100/80"
+              >
+                Hareket ettirin · tıklayınca parıltı
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Closing CTA -->
+      <section class="relative py-24 sm:py-32 px-6">
+        <div
+          class="reveal-up mx-auto max-w-3xl text-center rounded-[2rem] border border-white/80 bg-white/60 px-8 py-16 sm:py-20 shadow-soft backdrop-blur-xl"
+        >
+          <h2
+            class="text-[clamp(1.75rem,4vw,2.5rem)] font-semibold tracking-tighter2 text-ink-600"
+          >
+            Sakin. Güçlü. Hazır.
+          </h2>
+          <p class="mt-4 text-[16px] text-ink-400 max-w-md mx-auto leading-relaxed">
+            AI Lab ile araştırma ve üretim akışınızı sadeleştirin.
+          </p>
+          <a
+            href="#top"
+            class="magnetic-btn mt-8 inline-flex items-center justify-center rounded-full bg-accent px-8 py-3.5 text-[15px] font-medium text-white shadow-[0_8px_24px_-6px_rgba(99,102,241,0.4)] hover:bg-accent-deep transition-colors"
+          >
+            <span class="magnetic-text">Yukarı dön</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-ink-100/80 py-10 px-6">
+      <div
+        class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] text-ink-300"
+      >
+        <span class="font-medium text-ink-400">AI Lab</span>
+        <span>Designed with quiet intention.</span>
+      </div>
+    </footer>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.7.1/tsparticles.bundle.min.js"></script>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
