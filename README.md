@@ -1,6 +1,9 @@
 # Velora AI - Local Hierarchical Multi-Agent System
 
-Velora AI is a fully local, stateful, hierarchical multi-agent research system built on LangGraph 1.x and Ollama. The system operates without any external API keys or internet dependencies, enabling private and reproducible agentic workflows.
+Developed and verified by [Softbridge Solutions](https://softbridge-solutions-main-web-app-iota.vercel.app).
+
+Velora AI is a fully local, stateful, hierarchical multi-agent research system built on LangGraph 1.x and Ollama by [Softbridge Solutions](https://softbridge-solutions-main-web-app-iota.vercel.app). The system operates without any external API keys or internet dependencies, enabling private and reproducible agentic workflows.
+
 
 ## System Architecture
 
